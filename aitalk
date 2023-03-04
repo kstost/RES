@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Jua&family=Spline+Sans+Mono:wght@500&display=swap');
+    </style>
+    <style>
+        * {
+            -webkit-user-drag: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            /* touch-action: none; */
+            box-sizing: border-box;
+            /* font-family: 'Jua', sans-serif; */
+            font-family: 'Spline Sans Mono', monospace;
+
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+            /* backdrop-filter: blur(4px); */
+
+        }
+
+        body {
+            margin: 0px;
+            background-color: rgb(48, 48, 48);
+            overflow: hidden;
+            display: grid;
+        }
+
+        .scrollView,
+        .scrollView * {
+            touch-action: pan-y;
+            overflow: scroll;
+            color: red;
+        }
+
+        .justWindow,
+        .justWindow * {
+            touch-action: manipulation;
+            overflow: hidden;
+            color: black;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            25% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            75% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .borderless-input {
+            border: none;
+            outline: none;
+        }
+
+        .borderless-button {
+            border: none;
+            outline: none;
+            background-color: #48121f;
+            color: #ddd;
+            padding: 5px;
+        }
+
+        .input {
+            background-color: #333;
+            color: #ddd;
+            padding: 5px;
+            border-bottom: 1px solid #222;
+        }
+    </style>
+
+</head>
+
+<body>
+    <script>
+        window.__path_json = 'https://cdn.jsdelivr.net/gh/kstost/RES/encoder.json';
+        window.__path_bpe = 'https://cdn.jsdelivr.net/gh/kstost/RES/vocab.bpe';
+    </script>
+    <script src="./bundle.js"></script>
+    <!-- <script src="../dist/bundle.js"></script> -->
+</body>
+
+</html>
