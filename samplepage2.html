@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Automation Playground</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Web Automation Playground</h1>
+    <p>This is a simple web application for practicing web automation with Selenium.</p>
+    <label for="input-text">Enter a number:</label>
+    <input type="number" id="input-text" placeholder="Type a number">
+    <button id="calculate">Calculate Square</button>
+    <p id="message"></p>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const inputText = document.getElementById("input-text");
+            const calculateButton = document.getElementById("calculate");
+            const message = document.getElementById("message");
+
+            calculateButton.addEventListener("click", function () {
+                const inputValue = parseFloat(inputText.value);
+                if (!isNaN(inputValue)) {
+                    const square = inputValue * inputValue;
+                    message.textContent = `Square of ${inputValue} is ${square}`;
+                } else {
+                    message.textContent = "Please enter a valid number.";
+                }
+            });
+
+            // Allow only numbers in the input field
+            inputText.addEventListener("input", function () {
+                this.value = this.value.replace(/[^0-9]/g, "");
+            });
+        });
+    </script>
+</body>
+</html>
