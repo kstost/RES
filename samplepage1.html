@@ -49,7 +49,6 @@
     <div class="input-container">
         <label for="input-text">Enter a number:</label>
         <input type="number" id="input-text" placeholder="Type a number">
-        <button id="calculate" style="display:none;">Calculate Square</button>
     </div>
     <p id="message"></p>
 
@@ -63,9 +62,13 @@
             const message = document.getElementById("message");
 
             setTimeout(function () {
-                const calculateButton = document.getElementById("calculate");
-                calculateButton.style.display = "inline-block"; // 버튼을 표시
-
+                const calculateButton = document.createElement("button");
+                calculateButton.textContent = "Calculate Square";
+                calculateButton.style.backgroundColor = "#007bff";
+                calculateButton.style.color = "white";
+                calculateButton.style.border = "none";
+                calculateButton.style.padding = "10px 20px";
+                calculateButton.style.cursor = "pointer";
                 calculateButton.addEventListener("click", function () {
                     const inputValue = parseFloat(inputText.value);
                     if (!isNaN(inputValue)) {
@@ -78,11 +81,8 @@
                         message.textContent = "Please enter a valid number.";
                     }
                 });
-
-                // Allow only numbers in the input field
-                inputText.addEventListener("input", function () {
-                    this.value = this.value.replace(/[^0-9]/g, "");
-                });
+                const inputContainer = document.querySelector(".input-container");
+                inputContainer.appendChild(calculateButton);
             }, getRandomDelay()); // calculateButton을 추가하는 딜레이
         });
     </script>
