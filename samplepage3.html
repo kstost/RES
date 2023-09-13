@@ -3,87 +3,94 @@
 <head>
     <title>AI 자동화 웹페이지</title>
     <style>
-        /* 전체 페이지 스타일 */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
+/* 전체 페이지 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
 
-        /* 상단 메뉴 스타일 */
-        nav {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 0;
-        }
+/* 상단 메뉴 스타일 */
+.menu {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
 
-        nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
+.menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
 
-        nav ul li {
-            display: inline;
-            margin-right: 20px;
-        }
+.menu ul li {
+    display: inline;
+    margin-right: 20px;
+}
 
-        nav ul li a {
-            text-decoration: none;
-            color: #fff;
-            font-weight: bold;
-        }
+.menu ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
 
-        /* 중간 컨텐츠 영역 스타일 */
-        #content {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
+/* 중간 컨텐츠 영역 스타일 */
+.content-box {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
 
-        h1 {
-            color: #333;
-        }
+.content-title {
+    color: #333;
+}
 
-        p {
-            font-size: 18px;
-            line-height: 1.6;
-        }
+.content-description {
+    font-size: 18px;
+    line-height: 1.6;
+}
 
-        /* 표 스타일 */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+/* 표 스타일 */
+.tool-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
+.tool-table th, .tool-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
 
-        th {
-            background-color: #333;
-            color: #fff;
-        }
+.tool-table th {
+    background-color: #333;
+    color: #fff;
+}
 
-        /* 푸터 스타일 */
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-        }
+/* 푸터 스타일 */
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+        
     </style>
 </head>
 <body>
     <!-- 상단 메뉴 -->
-    <nav>
+    <nav class="menu">
         <ul>
             <li><a href="#">홈</a></li>
             <li><a href="#">서비스</a></li>
@@ -93,15 +100,15 @@
     </nav>
 
     <!-- 중간 컨텐츠 영역 -->
-    <div id="content">
-        <h1>AI 자동화는 재미있어</h1>
-        <p>
+    <div id="content" class="content-box">
+        <h1 class="content-title">AI 자동화는 재미있어</h1>
+        <p class="content-description">
             AI 자동화는 현대 기술의 중요한 부분으로, 업무 효율성을 향상시키고 실제 작업을 자동화하는 데 큰 도움을 줍니다.
             아래는 몇 가지 인기 있는 AI 자동화 툴 목록과 간단한 설명입니다.
         </p>
 
         <!-- 표로 AI 자동화 툴 목록과 소개 작성 -->
-        <table>
+        <table class="tool-table">
             <thead>
                 <tr>
                     <th>툴</th>
@@ -126,8 +133,8 @@
     </div>
 
     <!-- 하단 푸터 -->
-    <footer>
-       이 페이지는 <a href="https://chat.openai.com/share/5ed00eac-be6d-4156-a896-083f7c70209c">ChatGPT</a>에 의해 생성되었습니다.
+    <footer class="footer">
+        이 페이지는 <a href="https://www.example.com/" class="footer-link">ChatGPT</a>에 의해 생성되었습니다.
     </footer>
 </body>
 </html>
