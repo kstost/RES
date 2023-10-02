@@ -35,6 +35,10 @@
             /* 배경색을 쉽게 볼 수 있도록 설정, 필요에 따라 변경하세요 */
         }
     </style>
+    <link rel="stylesheet" href="https://www.cssscript.com/demo/sakura-falling-effect/dist/sakura.css" />
+    <script src="https://www.cssscript.com/demo/sakura-falling-effect/dist/sakura.js"></script>
+
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
@@ -260,6 +264,34 @@
 
 <body>
     <div id="myDiv" style="background-color: red;position: fixed;">1</div>
+
+    <script>
+        // console.log(Sakura)
+        var sakura = new Sakura('body', {
+            colors: [
+                {
+                    gradientColorStart: 'rgba(255, 183, 197, 0.9)',
+                    gradientColorEnd: 'rgba(255, 197, 208, 0.9)',
+                    gradientColorDegree: 120,
+                },
+                {
+                    gradientColorStart: 'rgba(255,189,189)',
+                    gradientColorEnd: 'rgba(227,170,181)',
+                    gradientColorDegree: 120,
+                },
+                {
+                    gradientColorStart: 'rgba(212,152,163)',
+                    gradientColorEnd: 'rgba(242,185,196)',
+                    gradientColorDegree: 120,
+                },
+            ],
+            maxSize: 34,
+            minSize: 20,
+
+            delay: 200,
+        });
+    </script>
+
 </body>
 
 </html>
