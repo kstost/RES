@@ -16,6 +16,7 @@
         body {
             margin: 0;
             padding: 0;
+            overflow: hidden;
         }
 
 
@@ -95,40 +96,87 @@
         async function delay(num) {
             await new Promise(r => setTimeout(r, num));
         }
+
         // async function delay(num) {
         //     await new Promise(r => setTimeout(r, num));
         // }
 
         window.addEventListener('load', async () => {
+            async function makeVideo(path, design) {
+                let video = $('<video autoplay muted playsinline />').css({ position: "absolute", ...design }).attr("src", path);
+                video.appendTo(stage);
+                let ended = false;
+                let loaded = false;
+                let awaiter = new Awaiter();
+                video.on('loadedmetadata', () => {
+                    loaded = true;
+                    awaiter.resolve();
+                })
+                video.on('play', () => { })
+                video.on('ended', () => ended = true)
+                await awaiter;
+                return {
+                    get width() { return video.width() },
+                    get height() { return video.height() },
+                    get duration() { return video[0].duration },
+                    get currentTime() { return video[0].currentTime },
+                    get isEnd() { return ended },
+                    get view() { return video },
+                }
+            }
+
             const stage = document.getElementById("myDiv");
             stage.innerHTML = ``
-            {
-                let video = $('<video autoplay muted playsinline />').css({ opacity: 0, "width": "100%" }).attr("src", "wedding_res01.mp4");
-                video.appendTo(stage)
-                gsap.to(video, {
-                    rotation: 0, opacity: 1, duration: 1, y: boxinfo.height * 0.2, onComplete: function () {
-                        // code to be executed after the animation completes
-                    }
-                });
+            // {
+            //     let video = $('<video autoplay muted playsinline />').css({ opacity: 0, "width": "100%" }).attr("src", "wedding_res01.mp4");
+            //     video.appendTo(stage)
+            //     gsap.to(video, {
+            //         rotation: 0, opacity: 1, duration: 1, y: boxinfo.height * 0.2, onComplete: function () {
+            //             // code to be executed after the animation completes
+            //         }
+            //     });
 
-                false && await new Promise(r => video.on('ended', r));
-            }
+            //     false && await new Promise(r => video.on('ended', r));
+            // }
             {
-                let video = $('<video autoplay muted playsinline />').css({
-                    position: "absolute",
+                let vdo = await makeVideo("wedding_res01.MP4", {
                     top: 0,
                     left: 0,
                     opacity: 1,
+                    "z-index": 1,
                     height: "100%"
-                }).attr("src", "wedding_zepeto_video 12.MP4");
-                video.appendTo(stage)
-                // gsap.to(video, {
-                //     rotation: 0, opacity: 1, duration: 1, y: boxinfo.height * 0.2, onComplete: function () {
-                //         // code to be executed after the animation completes
-                //     }
-                // });
+                });
+                while (!vdo.isEnd) await delay(1)
+                gsap.to(vdo.view, {
+                    rotation: 0, scale: 1.5, opacity: 0, x: 0, y: 0, duration: 2, onComplete: function () {
+                        vdo.view.remove();
+                    }
+                });
+            }
+            {
 
-                false && await new Promise(r => video.on('ended', r));
+                let awaitssli = [];
+                for (let i = 0; i < 3; i++) {
+                    let awiter = new Awaiter();
+                    awaitssli.push(awiter);
+                    (async () => {
+                        let vdo = await makeVideo("wedding_zepeto_video 12.MP4", {
+                            top: 0,
+                            left: 0,
+                            opacity: 1,
+                            height: "106%"
+                        });
+                        vdo.view.css({ left: vdo.width * i })
+                        while (!vdo.isEnd) await delay(1)
+                        awiter.resolve();
+                        gsap.to(vdo.view, {
+                            rotation: 0, opacity: 0, x: 0, y: boxinfo.height * (i % 2 ? -1 : 1), duration: 1.5, onComplete: function () {
+                                vdo.view.remove();
+                            }
+                        });
+                    })();
+                }
+                await Promise.all(awaitssli);
             }
 
             {
