@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @font-face {
+            font-family: 'NPSfontBold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/NPSfontBold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        #myDiv {
+            font-size: 1em;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+
+        .aspect-ratio {
+            position: relative;
+            width: 100%;
+            /* div의 폭을 원하는 크기로 설정하세요. 여기서는 전체 너비를 사용합니다. */
+            padding-bottom: 56.25%;
+            /* 16:9의 비율. (9 / 16) * 100 = 56.25% */
+            background-color: #c84747;
+            /* 배경색을 쉽게 볼 수 있도록 설정, 필요에 따라 변경하세요 */
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+        integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        async function loadImage(img, path) {
+            if (img[Symbol.for('setLoad')]) throw new Error('once time');
+            img[Symbol.for('setLoad')] = true;
+            img.attr({ src: path });
+            await new Promise(r => img.on('load', r));
+        }
+        class Awaiter {
+            constructor() {
+                this.promise = new Promise((resolve, reject) => {
+                    this.resolve = resolve;
+                    this.reject = reject;
+                });
+            }
+            then(...args) {
+                return this.promise.then(...args);
+            }
+            catch(...args) {
+                return this.promise.catch(...args);
+            }
+        }
+
+        function videoEnded() {
+            // alert(123);
+        }
+        // window.addEventListener('resize', function () {
+        //     console.log('창 크기가 변경되었습니다. 현재 가로: ' + window.innerWidth + ', 세로: ' + window.innerHeight);
+        // });
+        let boxinfo;
+        function adjustDivSize() {
+            let div = document.getElementById("myDiv");  // div의 ID를 "myDiv"로 가정
+            let aspectRatio = 16 / 9;
+            if (window.innerWidth / window.innerHeight > aspectRatio) {
+                div.style.width = window.innerHeight * aspectRatio + "px";
+                div.style.height = window.innerHeight + "px";
+                div.style.left = ((window.innerWidth - (window.innerHeight * aspectRatio)) / 2) + "px"
+            }
+            else {
+                div.style.width = window.innerWidth + "px";
+                div.style.height = window.innerWidth / aspectRatio + "px";
+                div.style.top = ((window.innerHeight - (window.innerWidth / aspectRatio)) / 2) + "px"
+            }
+            boxinfo = div.getBoundingClientRect();
+        }
+
+        window.addEventListener('resize', adjustDivSize);
+        window.addEventListener('load', adjustDivSize);  // 페이지 로딩 시에도 크기 조정
+
+        async function delay(num) {
+            await new Promise(r => setTimeout(r, num));
+        }
+        // async function delay(num) {
+        //     await new Promise(r => setTimeout(r, num));
+        // }
+
+        window.addEventListener('load', async () => {
+            const stage = document.getElementById("myDiv");
+            stage.innerHTML = ``
+            let video = $('<video autoplay muted />').css({ opacity: 0, "width": "100%" }).attr("src", "wedding_res01.mp4");
+            video.appendTo(stage)
+            gsap.to(video, {
+                rotation: 0, opacity: 1, duration: 1, y: boxinfo.height * 0.2, onComplete: function () {
+                    // code to be executed after the animation completes
+                }
+            });
+
+            false && await new Promise(r => video.on('ended', r));
+
+            {
+                let sentence = $('<div />').css({
+                    position: 'absolute',
+                    top: '0px',
+                    left: '0px',
+                    fontSize: '4vw',
+                    opacity: 0,
+                    fontFamily: 'NPSfontBold',
+                }).text('SAVE THE DATE FOR WEDDING OF').appendTo(stage);
+                let measured = (sentence[0].getBoundingClientRect().width / 2)
+                sentence.css({ left: (boxinfo.width / 2) - measured })
+                const awaiters = new Awaiter();
+                gsap.to(sentence, {
+                    rotation: 0, opacity: 1, x: 0, y: boxinfo.height * 0.1, duration: 1, onComplete: function () {
+                        awaiters.resolve()
+                    }
+                });
+                await awaiters;
+            }
+
+            // async function test() {
+            //     await new Awaiter();
+            //     console.log("Finished waiting");
+            // }
+
+            // test();
+
+            // let aw = new Awaiter();
+            // setTimeout(() => {
+            //     aw.resolve();
+            // }, 1000)
+            // console.log(aw)
+            // await aw;
+            // await new Awaiter();
+            const awaiters = [new Awaiter(), new Awaiter()];
+
+
+            {
+                let text = $('<div />').css({
+                    position: 'absolute',
+                    top: boxinfo.height * 0.25,
+                    left: '0px',
+                    fontSize: '4vw',
+                    opacity: 0,
+                    border: '1px solid red',
+                    fontFamily: 'NPSfontBold',
+                }).text('Hoai Thu').appendTo(stage);
+                let mesauredSize = (text[0].getBoundingClientRect().width / 2)
+                text.css({ left: (boxinfo.width / 2) - mesauredSize })
+                gsap.to(text, {
+                    rotation: 0, opacity: 1, x: -((boxinfo.width / 2) - mesauredSize) / 1.5, y: boxinfo.height * 0, duration: 1, onComplete: function () {
+                        awaiters[0].resolve();
+                    }
+                });
+            }
+            {
+                let text = $('<div />').css({
+                    position: 'absolute',
+                    top: boxinfo.height * 0.25,
+                    left: '0px',
+                    fontSize: '4vw',
+                    opacity: 0,
+                    border: '1px solid red',
+                    fontFamily: 'NPSfontBold',
+                }).text('Seung Tae').appendTo(stage);
+                let mesauredSize = (text[0].getBoundingClientRect().width / 2)
+                text.css({ left: (boxinfo.width / 2) - mesauredSize })
+                gsap.to(text, {
+                    rotation: 0, opacity: 1, x: ((boxinfo.width / 2) - mesauredSize) / 1.5, y: boxinfo.height * 0, duration: 1, onComplete: function () {
+                        awaiters[1].resolve();
+                    }
+                });
+            }
+            await Promise.all(awaiters)
+            {
+                let photo = $('<img />').css({
+                    position: 'absolute',
+                    top: boxinfo.height * 0.25,
+                    width: boxinfo.width / 2,
+                    top: '0px',
+                    left: '0px',
+                    fontSize: '4vw',
+                    opacity: 0,
+                    border: '1px solid red',
+                    fontFamily: 'NPSfontBold',
+                }).appendTo(stage);
+                await loadImage(photo, 'wedding_IMG_2061.JPG')
+                photo.css({ top: (boxinfo.height - photo.height()) / 2 })
+                photo.css({ left: (boxinfo.width - photo.width()) / 2 })
+                let awaiter = new Awaiter()
+                gsap.to(photo, {
+                    scale: 2, rotation: 0, opacity: 1, x: 0, y: 0, duration: 1, onComplete: function () {
+                        awaiter.resolve();
+                    }
+                });
+                await awaiter;
+                await delay(1000)
+                awaiter = new Awaiter()
+                gsap.to(photo, {
+                    scale: 1, rotation: 0, opacity: 0, x: 0, y: 0, duration: 1, onComplete: function () {
+                        awaiter.resolve();
+                    }
+                });
+                await awaiter;
+                photo.remove()
+                console.log(32)
+            }
+
+
+            {
+                let photo = $('<img />').css({
+                    position: 'absolute',
+                    top: boxinfo.height * 0.25,
+                    width: boxinfo.width / 2,
+                    top: '0px',
+                    left: '0px',
+                    fontSize: '4vw',
+                    opacity: 0,
+                    border: '1px solid red',
+                    fontFamily: 'NPSfontBold',
+                }).appendTo(stage);
+                await loadImage(photo, 'wedding_IMG_5042.JPG')
+                photo.css({ top: (boxinfo.height - photo.height()) / 2 })
+                photo.css({ left: (boxinfo.width - photo.width()) / 2 })
+                let awaiter = new Awaiter()
+                gsap.to(photo, {
+                    scale: 2, rotation: 0, opacity: 1, x: 0, y: 0, duration: 1, onComplete: function () {
+                        awaiter.resolve();
+                    }
+                });
+                await awaiter;
+                await delay(1000)
+                awaiter = new Awaiter()
+                gsap.to(photo, {
+                    scale: 1, rotation: 0, opacity: 0, x: 0, y: 0, duration: 1, onComplete: function () {
+                        awaiter.resolve();
+                    }
+                });
+                await awaiter;
+                photo.remove()
+                console.log(32)
+            }
+
+
+        });
+
+
+    </script>
+</head>
+
+<body>
+    <div id="myDiv" style="background-color: red;position: fixed;">1</div>
+</body>
+
+</html>
