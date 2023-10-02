@@ -17,6 +17,7 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            background:#000;
         }
 
 
@@ -124,6 +125,10 @@
                     get view() { return video },
                 }
             }
+            let skipper = [
+                // true,
+                // true,
+            ];
 
             const stage = document.getElementById("myDiv");
             stage.innerHTML = ``
@@ -138,7 +143,7 @@
 
             //     false && await new Promise(r => video.on('ended', r));
             // }
-            {
+            if (!skipper[0]) {
                 let vdo = await makeVideo("wedding_res01.mp4", {
                     top: 0,
                     left: 0,
@@ -153,14 +158,14 @@
                     }
                 });
             }
-            {
+            if (!skipper[1]) {
 
                 let awaitssli = [];
                 for (let i = 0; i < 3; i++) {
                     let awiter = new Awaiter();
                     awaitssli.push(awiter);
                     (async () => {
-                        let vdo = await makeVideo("wedding_zepeto_video 12.MP4", {
+                        let vdo = await makeVideo("wedding_zepeto_video_12.mp4", {
                             top: 0,
                             left: 0,
                             opacity: 1,
@@ -178,44 +183,28 @@
                 }
                 await Promise.all(awaitssli);
             }
-
             {
-                let sentence = $('<div />').css({
-                    position: 'absolute',
-                    top: '0px',
-                    left: '0px',
-                    fontSize: '4vw',
-                    opacity: 0,
-                    fontFamily: 'NPSfontBold',
-                }).text('SAVE THE DATE FOR WEDDING OF').appendTo(stage);
-                let measured = (sentence[0].getBoundingClientRect().width / 2)
-                sentence.css({ left: (boxinfo.width / 2) - measured })
-                const awaiters = new Awaiter();
-                gsap.to(sentence, {
-                    rotation: 0, opacity: 1, x: 0, y: boxinfo.height * 0.1, duration: 1, onComplete: function () {
-                        awaiters.resolve()
-                    }
-                });
-                await awaiters;
+                $(stage).css({ "background-color": '#8b8b8b' })
             }
-
-            // async function test() {
-            //     await new Awaiter();
-            //     console.log("Finished waiting");
-            // }
-
-            // test();
-
-            // let aw = new Awaiter();
-            // setTimeout(() => {
-            //     aw.resolve();
-            // }, 1000)
-            // console.log(aw)
-            // await aw;
-            // await new Awaiter();
+            let sentence = $('<div />').css({
+                position: 'absolute',
+                top: '0px',
+                left: '0px',
+                fontSize: '4vw',
+                opacity: 0,
+                fontFamily: 'NPSfontBold',
+            }).text('SAVE THE DATE FOR WEDDING OF').appendTo(stage);
+            let measured = (sentence[0].getBoundingClientRect().width / 2)
+            sentence.css({ left: (boxinfo.width / 2) - measured })
+            const awaiters2 = new Awaiter();
+            gsap.to(sentence, {
+                rotation: 0, opacity: 1, x: 0, y: boxinfo.height * 0.1, duration: 1, onComplete: function () {
+                    awaiters2.resolve()
+                }
+            });
+            await awaiters2;
             const awaiters = [new Awaiter(), new Awaiter()];
-
-
+            const names = [];
             {
                 let text = $('<div />').css({
                     position: 'absolute',
@@ -223,9 +212,10 @@
                     left: '0px',
                     fontSize: '4vw',
                     opacity: 0,
-                    border: '1px solid red',
+                    border: '0px solid red',
                     fontFamily: 'NPSfontBold',
                 }).text('Hoai Thu').appendTo(stage);
+                names.push(text);
                 let mesauredSize = (text[0].getBoundingClientRect().width / 2)
                 text.css({ left: (boxinfo.width / 2) - mesauredSize })
                 gsap.to(text, {
@@ -241,9 +231,10 @@
                     left: '0px',
                     fontSize: '4vw',
                     opacity: 0,
-                    border: '1px solid red',
+                    border: '0px solid red',
                     fontFamily: 'NPSfontBold',
                 }).text('Seung Tae').appendTo(stage);
+                names.push(text);
                 let mesauredSize = (text[0].getBoundingClientRect().width / 2)
                 text.css({ left: (boxinfo.width / 2) - mesauredSize })
                 gsap.to(text, {
@@ -252,43 +243,76 @@
                     }
                 });
             }
-            await Promise.all(awaiters)
+            await Promise.all(awaiters);
+            [sentence, ...names].forEach(name => {
+                gsap.to(name, {
+                    rotation: 0, opacity: 0, duration: 0.3, onComplete: function () {
+                        name.remove()
+                    }
+                });
+            })
+
             {
-                let photo = $('<img />').css({
-                    position: 'absolute',
-                    top: boxinfo.height * 0.25,
-                    width: boxinfo.width / 2,
-                    top: '0px',
-                    left: '0px',
-                    fontSize: '4vw',
-                    opacity: 0,
-                    border: '1px solid red',
-                    fontFamily: 'NPSfontBold',
-                }).appendTo(stage);
-                await loadImage(photo, 'wedding_IMG_2061.JPG')
-                photo.css({ top: (boxinfo.height - photo.height()) / 2 })
-                photo.css({ left: (boxinfo.width - photo.width()) / 2 })
-                let awaiter = new Awaiter()
-                gsap.to(photo, {
-                    scale: 2, rotation: 0, opacity: 1, x: 0, y: 0, duration: 1, onComplete: function () {
-                        awaiter.resolve();
+                let vdo = await makeVideo("wedding_zepeto_video_50.mp4", {
+                    top: 0,
+                    left: 0,
+                    opacity: 1,
+                    "z-index": 1,
+                    height: "120%"
+                });
+                vdo.view.css({ left: (boxinfo.width - vdo.width) / 2, top: boxinfo.height })
+                let waiter = new Awaiter()
+                gsap.to(vdo.view, {
+                    rotation: 0, x: 0, y: -boxinfo.height, duration: 0.5, onComplete: function () { waiter.resolve() }
+                });
+                await waiter;
+                while (!vdo.isEnd) await delay(1)
+                gsap.to(vdo.view, {
+                    rotation: 0, scale: 0, opacity: 0, duration: 1, onComplete: function () {
+                        vdo.view.remove();
                     }
                 });
-                await awaiter;
-                await delay(1000)
-                awaiter = new Awaiter()
-                gsap.to(photo, {
-                    scale: 1, rotation: 0, opacity: 0, x: 0, y: 0, duration: 1, onComplete: function () {
-                        awaiter.resolve();
-                    }
-                });
-                await awaiter;
-                photo.remove()
-                console.log(32)
             }
 
 
-            {
+            let photoList = [
+                'wedding_-2023-10-02-10-33-16.1.JPG',
+                'wedding_-2023-10-02-10-33-16.2.JPG',
+                'wedding_-2023-10-02-10-33-16.JPG',
+                'wedding_-2023-10-02-10-33-17.1.JPG',
+                'wedding_-2023-10-02-10-33-17.2.JPG',
+                'wedding_-2023-10-02-10-33-17.3.JPG',
+                'wedding_-2023-10-02-10-33-17.4.jpg',
+                'wedding_-2023-10-02-10-33-17.5.JPG',
+                'wedding_-2023-10-02-10-33-17.JPG',
+                'wedding_-2023-10-02-10-33-18.1.JPG',
+                'wedding_-2023-10-02-10-33-18.2.JPG',
+                'wedding_-2023-10-02-10-33-18.3.JPG',
+                'wedding_-2023-10-02-10-33-18.4.JPG',
+                'wedding_-2023-10-02-10-33-18.JPG',
+                'wedding_-2023-10-02-10-33-19.1.JPG',
+                'wedding_-2023-10-02-10-33-19.2.JPG',
+                'wedding_-2023-10-02-10-33-19.3.JPG',
+                'wedding_-2023-10-02-10-33-19.4.JPG',
+                'wedding_-2023-10-02-10-33-19.5.JPG',
+                'wedding_-2023-10-02-10-33-19.JPG',
+                'wedding_-2023-10-02-10-33-20.1.JPG',
+                'wedding_-2023-10-02-10-33-20.2.JPG',
+                'wedding_-2023-10-02-10-33-20.3.JPG',
+                'wedding_-2023-10-02-10-33-20.4.JPG',
+                'wedding_-2023-10-02-10-33-20.5.JPG',
+                'wedding_-2023-10-02-10-33-20.JPG',
+                'wedding_-2023-10-02-10-33-21.1.JPG',
+                'wedding_-2023-10-02-10-33-21.2.JPG',
+                'wedding_-2023-10-02-10-33-21.3.JPG',
+                'wedding_-2023-10-02-10-33-21.4.JPG',
+                'wedding_-2023-10-02-10-33-21.5.jpg',
+                'wedding_-2023-10-02-10-33-21.JPG',
+                'wedding_-2023-10-02-10-33-22.1.JPG',
+                'wedding_-2023-10-02-10-33-22.JPG',
+
+            ];
+            for (let i = 0; i < photoList.length; i++) {
                 let photo = $('<img />').css({
                     position: 'absolute',
                     top: boxinfo.height * 0.25,
@@ -297,7 +321,35 @@
                     left: '0px',
                     fontSize: '4vw',
                     opacity: 0,
-                    border: '1px solid red',
+                    border: '0px solid red',
+                    fontFamily: 'NPSfontBold',
+                }).appendTo(stage);
+                await loadImage(photo, photoList[i])
+                photo.css({ top: (boxinfo.height - photo.height()) / 2 })
+                photo.css({ left: (boxinfo.width - photo.width()) / 2 })
+                gsap.to(photo, {
+                    scale: 2, rotation: 0, opacity: 1, x: 0, y: 0, duration: 0.7, onComplete: function () {
+                    }
+                });
+                await delay(2000)
+                gsap.to(photo, {
+                    scale: 2.5, rotation: 0, opacity: 0, x: 0, y: 0, duration: 0.7, onComplete: function () {
+                        photo.remove()
+                    }
+                });
+            }
+
+
+            if (false) {
+                let photo = $('<img />').css({
+                    position: 'absolute',
+                    top: boxinfo.height * 0.25,
+                    width: boxinfo.width / 2,
+                    top: '0px',
+                    left: '0px',
+                    fontSize: '4vw',
+                    opacity: 0,
+                    border: '0px solid red',
                     fontFamily: 'NPSfontBold',
                 }).appendTo(stage);
                 await loadImage(photo, 'wedding_IMG_5042.JPG')
