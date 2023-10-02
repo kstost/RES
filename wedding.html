@@ -102,15 +102,34 @@
         window.addEventListener('load', async () => {
             const stage = document.getElementById("myDiv");
             stage.innerHTML = ``
-            let video = $('<video autoplay muted />').css({ opacity: 0, "width": "100%" }).attr("src", "wedding_res01.mp4");
-            video.appendTo(stage)
-            gsap.to(video, {
-                rotation: 0, opacity: 1, duration: 1, y: boxinfo.height * 0.2, onComplete: function () {
-                    // code to be executed after the animation completes
-                }
-            });
+            {
+                let video = $('<video autoplay muted playsinline />').css({ opacity: 0, "width": "100%" }).attr("src", "wedding_res01.mp4");
+                video.appendTo(stage)
+                gsap.to(video, {
+                    rotation: 0, opacity: 1, duration: 1, y: boxinfo.height * 0.2, onComplete: function () {
+                        // code to be executed after the animation completes
+                    }
+                });
 
-            false && await new Promise(r => video.on('ended', r));
+                false && await new Promise(r => video.on('ended', r));
+            }
+            {
+                let video = $('<video autoplay muted playsinline />').css({
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    opacity: 1,
+                    height: "100%"
+                }).attr("src", "wedding_zepeto_video 12.MP4");
+                video.appendTo(stage)
+                // gsap.to(video, {
+                //     rotation: 0, opacity: 1, duration: 1, y: boxinfo.height * 0.2, onComplete: function () {
+                //         // code to be executed after the animation completes
+                //     }
+                // });
+
+                false && await new Promise(r => video.on('ended', r));
+            }
 
             {
                 let sentence = $('<div />').css({
